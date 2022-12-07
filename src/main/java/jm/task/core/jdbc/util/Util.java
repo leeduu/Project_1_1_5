@@ -2,21 +2,29 @@ package jm.task.core.jdbc.util;
 
 import java.sql.*;
 
-public class Util {                     // реализуйте настройку соеденения с БД jdbc:mysql://localhost:3306/mysql
+public class Util {
 
-    public static Connection getMySQLConnection() throws SQLException, ClassNotFoundException {
-        String hostName = "localhost";
-        String dbName = "mysql";
-        String userName = "root";
-        String password = "Naushniki2007";
+    public static final String HOSTNAME = "localhost";
+    public static final String URL = "jdbc:mysql://localhost:3306/mysql";
+    public static final String USERNAME = "root";
+    public static final String PASSWORD = "Naushniki2007";
+    public static Connection connection;
+    public static Statement statement;
 
-        return getMySQLConnection(hostName, dbName, userName, password);
+    static {
+        try {
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
-    public static Connection getMySQLConnection(String hostName, String dbName, String userName, String password)
-            throws SQLException {
-        //Class.forName("com.mysql.jdbc.Driver");
-        String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
-        Connection conn = DriverManager.getConnection(connectionURL, userName, password);
-        return conn;
+    static {
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 }
