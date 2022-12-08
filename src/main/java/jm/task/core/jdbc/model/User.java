@@ -62,6 +62,6 @@ public class User {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "User " + name + " " + lastName + ", " + age;
+        return getClass().getSimpleName() + " " + name + " " + lastName + ", " + age;
     }
 }
