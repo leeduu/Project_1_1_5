@@ -5,10 +5,10 @@ import java.sql.*;
 
 public class Util {
 
-    public static Connection connection = null;
-    public static Statement statement = null;
+    public static Connection connection;
+    public static Statement statement;
 
-    public static void getConnection() {
+    public static Connection getConnection() {
 
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql", "root", "Naushniki2007");
@@ -17,5 +17,7 @@ public class Util {
             e.printStackTrace();
             throw new RuntimeException();
         }
+
+        return connection;
     }
 }
