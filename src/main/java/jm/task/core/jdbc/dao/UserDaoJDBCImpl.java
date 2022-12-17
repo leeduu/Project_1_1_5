@@ -23,7 +23,7 @@ public class UserDaoJDBCImpl implements UserDao {
                     "user_name varchar(30) not null," +
                     "user_lastName varchar(30) not null," +
                     "user_age int not null," +
-                    "user_id int PRIMARY KEY AUTO_INCREMENT)");
+                    "id int)");  //user_id int PRIMARY KEY AUTO_INCREMENT
             connect.commit();
         } catch (ClassNotFoundException | SQLException e) {
             connect.rollback();
@@ -67,7 +67,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             connect.setAutoCommit(false);
             Statement st = Util.connection.createStatement();
-            PreparedStatement preparedStatement = connect.prepareStatement("DELETE FROM users WHERE user_id = ?");
+            PreparedStatement preparedStatement = connect.prepareStatement("DELETE FROM users WHERE id = ?");
             preparedStatement.setInt(1, (int) id);
             connect.commit();
         } catch (SQLException e) {

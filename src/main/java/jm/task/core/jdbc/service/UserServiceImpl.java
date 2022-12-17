@@ -1,18 +1,18 @@
 package jm.task.core.jdbc.service;
 
 import jm.task.core.jdbc.dao.UserDao;
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
+import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.model.User;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private static UserDao userDao = new UserDaoJDBCImpl();
+    private static UserDao userDaoHibernate = new UserDaoHibernateImpl();
 
     public void createUsersTable() {
         try {
-            userDao.createUsersTable();
+            userDaoHibernate.createUsersTable();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     public void dropUsersTable() {
         try {
-            userDao.dropUsersTable();
+            userDaoHibernate.dropUsersTable();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     public void saveUser(String name, String lastName, byte age) {
         try {
-            userDao.saveUser(name, lastName, age);
+            userDaoHibernate.saveUser(name, lastName, age);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -36,19 +36,19 @@ public class UserServiceImpl implements UserService {
 
     public void removeUserById(long id) {
         try {
-            userDao.removeUserById(id);
+            userDaoHibernate.removeUserById(id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+        return userDaoHibernate.getAllUsers();
     }
 
     public void cleanUsersTable() {
         try {
-            userDao.cleanUsersTable();
+            userDaoHibernate.cleanUsersTable();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
