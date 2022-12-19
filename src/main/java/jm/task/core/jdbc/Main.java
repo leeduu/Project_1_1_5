@@ -11,8 +11,6 @@ public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
-        Session session = Util.getSessionFactory().openSession();
-
         userService.createUsersTable();
 
         userService.saveUser("Anna", "Antonova", (byte) 11);

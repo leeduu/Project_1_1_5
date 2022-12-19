@@ -2,7 +2,6 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.sql.*;
@@ -11,17 +10,14 @@ import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
     private final static SessionFactory daoSessionFactory = Util.getSessionFactory();
-    //User user = new User();
-
-    private static Util util = new Util();
     private static Connection connect = Util.getConnection();
 
     public UserDaoHibernateImpl() {
     }
 
     public void createUsersTable() throws SQLException {
-        try (Session session = Util.getSessionFactory().openSession()) {
-            session.beginTransaction();
+        try {
+            daoSessionFactory.openSession();
             connect.setAutoCommit(false);
             Class.forName("com.mysql.cj.jdbc.Driver");
             Statement st = Util.connection.createStatement();
@@ -29,7 +25,7 @@ public class UserDaoHibernateImpl implements UserDao {
                     "user_name varchar(30) not null," +
                     "user_lastName varchar(30) not null," +
                     "user_age int not null," +
-                    "id int)");  //user_id int PRIMARY KEY AUTO_INCREMENT
+                    "id int)");
             connect.commit();
         } catch (ClassNotFoundException | SQLException e) {
             connect.rollback();
@@ -40,8 +36,8 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     public void dropUsersTable() throws SQLException {
-        try (Session session = Util.getSessionFactory().openSession()) {
-            session.beginTransaction();
+        try {
+            daoSessionFactory.openSession();
             connect.setAutoCommit(false);
             Statement st = Util.connection.createStatement();
             st.executeUpdate("DROP TABLE IF EXISTS users");
@@ -55,8 +51,8 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) throws SQLException {
-        try (Session session = Util.getSessionFactory().openSession()) {
-            session.beginTransaction();
+        try {
+            daoSessionFactory.openSession();
             connect.setAutoCommit(false);
             Statement st = connect.createStatement();
             st.executeUpdate("INSERT INTO users(user_name, user_lastName, user_age) VALUES ('" + name +
@@ -72,8 +68,8 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     public void removeUserById(long id) throws SQLException {
-        try (Session session = Util.getSessionFactory().openSession()) {
-            session.beginTransaction();
+        try {
+            daoSessionFactory.openSession();
             connect.setAutoCommit(false);
             Statement st = Util.connection.createStatement();
             PreparedStatement preparedStatement = connect.prepareStatement("DELETE FROM users WHERE id = ?");
@@ -89,8 +85,8 @@ public class UserDaoHibernateImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> userList;
-        try (Session session = Util.getSessionFactory().openSession()) {
-            session.beginTransaction();
+        try {
+            daoSessionFactory.openSession();
             PreparedStatement preparedStatement = connect.prepareStatement("SELECT * FROM users");
             ResultSet resultSet = preparedStatement.executeQuery();
             userList = new ArrayList<>();
@@ -109,8 +105,8 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     public void cleanUsersTable() throws SQLException {
-        try (Session session = Util.getSessionFactory().openSession()) {
-            session.beginTransaction();
+        try {
+            daoSessionFactory.openSession();
             connect.setAutoCommit(false);
             Statement st = Util.connection.createStatement();
             st.executeUpdate("DELETE FROM users");
